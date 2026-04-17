@@ -7,6 +7,7 @@ const statusLabel = document.querySelector("#status-label");
 const startButton = document.querySelector("#start-btn");
 const pauseButton = document.querySelector("#pause-btn");
 const resetButton = document.querySelector("#reset-btn");
+const soundTestButton = document.querySelector("#sound-test-btn");
 const presetButtons = document.querySelectorAll(".preset-btn");
 const ring = document.querySelector(".ring");
 
@@ -14,6 +15,38 @@ let timerId = null;
 let totalSeconds = getInputSeconds();
 let remainingSeconds = totalSeconds;
 let audioContext = null;
+
+function getAudioContext() {
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+
+  if (!AudioContextClass) {
+    return null;
+  }
+
+  if (!audioContext) {
+    audioContext = new AudioContextClass();
+  }
+
+  return audioContext;
+}
+
+async function unlockAudio() {
+  const context = getAudioContext();
+
+  if (!context) {
+    return null;
+  }
+
+  if (context.state === "suspended") {
+    try {
+      await context.resume();
+    } catch (error) {
+      console.error("Audio resume failed", error);
+    }
+  }
+
+  return context;
+}
 
 function pad(value) {
   return String(value).padStart(2, "0");
@@ -58,42 +91,36 @@ function stopTimer() {
   timerId = null;
 }
 
-function playAlertSound() {
-  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+async function playAlertSound() {
+  const context = await unlockAudio();
 
-  if (!AudioContextClass) {
+  if (!context) {
     return;
   }
 
-  if (!audioContext) {
-    audioContext = new AudioContextClass();
-  }
-
-  if (audioContext.state === "suspended") {
-    audioContext.resume();
-  }
-
   const notes = [880, 988, 1318];
-  const startAt = audioContext.currentTime;
+  const startAt = context.currentTime + 0.02;
 
   notes.forEach((frequency, index) => {
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
+    const noteStart = startAt + (index * 0.28);
+    const noteEnd = noteStart + 0.22;
 
     oscillator.type = "sine";
     oscillator.frequency.value = frequency;
-    gain.gain.setValueAtTime(0.001, startAt + (index * 0.22));
-    gain.gain.exponentialRampToValueAtTime(0.18, startAt + (index * 0.22) + 0.03);
-    gain.gain.exponentialRampToValueAtTime(0.001, startAt + (index * 0.22) + 0.18);
+    gain.gain.setValueAtTime(0.0001, noteStart);
+    gain.gain.exponentialRampToValueAtTime(0.24, noteStart + 0.03);
+    gain.gain.exponentialRampToValueAtTime(0.0001, noteEnd);
 
     oscillator.connect(gain);
-    gain.connect(audioContext.destination);
-    oscillator.start(startAt + (index * 0.22));
-    oscillator.stop(startAt + (index * 0.22) + 0.2);
+    gain.connect(context.destination);
+    oscillator.start(noteStart);
+    oscillator.stop(noteEnd + 0.02);
   });
 }
 
-function startTimer() {
+async function startTimer() {
   if (!remainingSeconds) {
     totalSeconds = getInputSeconds();
     remainingSeconds = totalSeconds;
@@ -104,6 +131,7 @@ function startTimer() {
     return;
   }
 
+  await unlockAudio();
   statusLabel.textContent = "\u5012\u6578\u4e2d";
   stopTimer();
 
@@ -157,6 +185,10 @@ function applyPreset(button) {
 startButton.addEventListener("click", startTimer);
 pauseButton.addEventListener("click", pauseTimer);
 resetButton.addEventListener("click", resetTimer);
+soundTestButton.addEventListener("click", async () => {
+  await playAlertSound();
+  statusLabel.textContent = "\u5df2\u64ad\u653e\u6e2c\u8a66\u63d0\u793a\u97f3";
+});
 
 [daysInput, hoursInput, minutesInput, secondsInput].forEach((input) => {
   input.addEventListener("input", resetTimer);
