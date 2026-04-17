@@ -2,7 +2,10 @@ const daysInput = document.querySelector("#days-input");
 const hoursInput = document.querySelector("#hours-input");
 const minutesInput = document.querySelector("#minutes-input");
 const secondsInput = document.querySelector("#seconds-input");
-const timeDisplay = document.querySelector("#time-display");
+const daysDisplay = document.querySelector("#days-display");
+const hoursDisplay = document.querySelector("#hours-display");
+const minutesDisplay = document.querySelector("#minutes-display");
+const secondsDisplay = document.querySelector("#seconds-display");
 const statusLabel = document.querySelector("#status-label");
 const startButton = document.querySelector("#start-btn");
 const pauseButton = document.querySelector("#pause-btn");
@@ -131,12 +134,13 @@ function pad(value) {
   return String(value).padStart(2, "0");
 }
 
-function formatTime(value) {
-  const days = Math.floor(value / 86400);
-  const hours = Math.floor((value % 86400) / 3600);
-  const minutes = Math.floor((value % 3600) / 60);
-  const seconds = value % 60;
-  return `${pad(days)}:${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+function getTimeParts(value) {
+  return {
+    days: Math.floor(value / 86400),
+    hours: Math.floor((value % 86400) / 3600),
+    minutes: Math.floor((value % 3600) / 60),
+    seconds: value % 60
+  };
 }
 
 function getInputSeconds() {
@@ -160,7 +164,11 @@ function syncInputs(total) {
 }
 
 function updateUI() {
-  timeDisplay.textContent = formatTime(remainingSeconds);
+  const parts = getTimeParts(remainingSeconds);
+  daysDisplay.textContent = pad(parts.days);
+  hoursDisplay.textContent = pad(parts.hours);
+  minutesDisplay.textContent = pad(parts.minutes);
+  secondsDisplay.textContent = pad(parts.seconds);
   const progress = totalSeconds > 0 ? remainingSeconds / totalSeconds : 0;
   ring.style.setProperty("--progress", `${Math.max(0, progress)}`);
 }
