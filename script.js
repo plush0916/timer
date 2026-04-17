@@ -21,6 +21,7 @@ let audioContext = null;
 let alertAudio = null;
 let hasUnlockedAudio = false;
 let targetTimestamp = null;
+let pausedSeconds = null;
 
 function createAlertToneUrl() {
   const sampleRate = 44100;
@@ -185,7 +186,8 @@ function tickTimer() {
     return;
   }
 
-  const nextRemaining = Math.max(0, Math.ceil((targetTimestamp - Date.now()) / 1000));
+  const millisecondsLeft = targetTimestamp - Date.now();
+  const nextRemaining = Math.max(0, Math.floor((millisecondsLeft + 999) / 1000));
   remainingSeconds = nextRemaining;
   updateUI();
 
@@ -243,13 +245,15 @@ async function playAlertSound() {
 }
 
 async function startTimer() {
-  totalSeconds = getInputSeconds();
-
-  if (!timerId) {
+  if (pausedSeconds !== null) {
+    remainingSeconds = pausedSeconds;
+    pausedSeconds = null;
+  } else {
+    totalSeconds = getInputSeconds();
     remainingSeconds = totalSeconds;
   }
 
-  if (!totalSeconds) {
+  if (!remainingSeconds) {
     statusLabel.textContent = "\u8acb\u5148\u8f38\u5165\u6642\u9593";
     return;
   }
@@ -264,6 +268,7 @@ async function startTimer() {
 
 function pauseTimer() {
   if (timerId) {
+    pausedSeconds = remainingSeconds;
     stopTimer();
     statusLabel.textContent = "\u5df2\u66ab\u505c";
   }
@@ -271,6 +276,7 @@ function pauseTimer() {
 
 function resetTimer() {
   stopTimer();
+  pausedSeconds = null;
   totalSeconds = getInputSeconds();
   remainingSeconds = totalSeconds;
   statusLabel.textContent = "\u6e96\u5099\u958b\u59cb";
@@ -290,6 +296,7 @@ function applyPreset(button) {
 
   totalSeconds = getInputSeconds();
   remainingSeconds = totalSeconds;
+  pausedSeconds = null;
   stopTimer();
   statusLabel.textContent = "\u5df2\u5957\u7528\u9810\u8a2d";
   updateUI();
