@@ -3,47 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>倒數計時器</title>
+  <title>&#20498;&#25976;&#35336;&#26178;&#22120;</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main class="app">
     <section class="card">
       <p class="eyebrow">Countdown Demo</p>
-      <h1>倒數計時器</h1>
-      <p class="subtitle">輸入時間後開始倒數，也可以快速套用常用時長。</p>
+      <h1>&#20498;&#25976;&#35336;&#26178;&#22120;</h1>
+      <p class="subtitle">&#25903;&#25588;&#22825;&#12289;&#26178;&#12289;&#20998;&#12289;&#31186;&#65292;&#20063;&#26371;&#22312;&#20498;&#25976;&#32080;&#26463;&#26178;&#25773;&#25918;&#25552;&#31034;&#38899;&#12290;</p>
 
       <div class="timer-shell">
         <div class="ring">
           <div class="ring-inner">
-            <span id="time-display">25:00</span>
-            <small id="status-label">準備開始</small>
+            <span id="time-display">00:00:25:00</span>
+            <small id="status-label">&#28310;&#20633;&#38283;&#22987;</small>
           </div>
         </div>
       </div>
 
+      <div class="time-hint">&#39023;&#31034;&#26684;&#24335;&#65306;&#22825; : &#26178; : &#20998; : &#31186;</div>
+
       <form id="countdown-form" class="controls">
         <label>
-          分鐘
-          <input id="minutes-input" type="number" min="0" max="999" value="25">
+          &#22825;&#25976;
+          <input id="days-input" type="number" min="0" max="365" value="0">
         </label>
         <label>
-          秒數
+          &#23567;&#26178;
+          <input id="hours-input" type="number" min="0" max="23" value="0">
+        </label>
+        <label>
+          &#20998;&#37912;
+          <input id="minutes-input" type="number" min="0" max="59" value="25">
+        </label>
+        <label>
+          &#31186;&#25976;
           <input id="seconds-input" type="number" min="0" max="59" value="0">
         </label>
       </form>
 
-      <div class="presets" aria-label="快速設定">
-        <button class="preset-btn" data-minutes="1">1 分鐘</button>
-        <button class="preset-btn" data-minutes="5">5 分鐘</button>
-        <button class="preset-btn" data-minutes="10">10 分鐘</button>
-        <button class="preset-btn" data-minutes="25">25 分鐘</button>
+      <div class="presets" aria-label="&#24555;&#36895;&#35373;&#23450;">
+        <button class="preset-btn" type="button" data-days="0" data-hours="0" data-minutes="1" data-seconds="0">1 &#20998;&#37912;</button>
+        <button class="preset-btn" type="button" data-days="0" data-hours="1" data-minutes="0" data-seconds="0">1 &#23567;&#26178;</button>
+        <button class="preset-btn" type="button" data-days="1" data-hours="0" data-minutes="0" data-seconds="0">1 &#22825;</button>
+        <button class="preset-btn" type="button" data-days="0" data-hours="0" data-minutes="25" data-seconds="0">25 &#20998;&#37912;</button>
       </div>
 
       <div class="actions">
-        <button id="start-btn" class="primary">開始</button>
-        <button id="pause-btn">暫停</button>
-        <button id="reset-btn">重設</button>
+        <button id="start-btn" class="primary" type="button">&#38283;&#22987;</button>
+        <button id="pause-btn" type="button">&#26283;&#20572;</button>
+        <button id="reset-btn" type="button">&#37325;&#35373;</button>
       </div>
     </section>
   </main>
