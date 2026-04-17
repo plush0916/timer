@@ -92,29 +92,38 @@ h1 {
 
 .time-grid {
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .time-box {
-  padding: 12px 8px;
-  border-radius: 18px;
-  background: rgba(203, 92, 53, 0.08);
-  box-shadow: inset 0 0 0 1px rgba(203, 92, 53, 0.1);
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
 }
 
 .time-value {
   display: block;
-  font-size: clamp(1.35rem, 5vw, 2rem);
+  font-size: clamp(1.35rem, 5vw, 2.1rem);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
 }
 
 .time-unit {
   display: block;
-  margin-top: 4px;
   color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.time-separator {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-dark);
+  transform: translateY(-8px);
 }
 
 #status-label {
@@ -222,17 +231,20 @@ button.primary:hover {
   }
 
   .time-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 6px;
-  }
-
-  .time-box {
-    padding: 10px 4px;
-    border-radius: 14px;
+    gap: 4px;
   }
 
   .time-value {
     font-size: clamp(1.05rem, 4vw, 1.35rem);
+  }
+
+  .time-unit {
+    font-size: 0.72rem;
+  }
+
+  .time-separator {
+    font-size: 1.1rem;
+    transform: translateY(-6px);
   }
 
   .actions button:first-child {
