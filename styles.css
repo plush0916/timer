@@ -93,7 +93,7 @@ h1 {
 .time-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -219,6 +219,20 @@ button.primary:hover {
   .presets,
   .actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .time-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .time-box {
+    padding: 10px 4px;
+    border-radius: 14px;
+  }
+
+  .time-value {
+    font-size: clamp(1.05rem, 4vw, 1.35rem);
   }
 
   .actions button:first-child {
