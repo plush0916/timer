@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>倒數計時器</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <section class="card">
+      <p class="eyebrow">Countdown Demo</p>
+      <h1>倒數計時器</h1>
+      <p class="subtitle">輸入時間後開始倒數，也可以快速套用常用時長。</p>
+
+      <div class="timer-shell">
+        <div class="ring">
+          <div class="ring-inner">
+            <span id="time-display">25:00</span>
+            <small id="status-label">準備開始</small>
+          </div>
+        </div>
+      </div>
+
+      <form id="countdown-form" class="controls">
+        <label>
+          分鐘
+          <input id="minutes-input" type="number" min="0" max="999" value="25">
+        </label>
+        <label>
+          秒數
+          <input id="seconds-input" type="number" min="0" max="59" value="0">
+        </label>
+      </form>
+
+      <div class="presets" aria-label="快速設定">
+        <button class="preset-btn" data-minutes="1">1 分鐘</button>
+        <button class="preset-btn" data-minutes="5">5 分鐘</button>
+        <button class="preset-btn" data-minutes="10">10 分鐘</button>
+        <button class="preset-btn" data-minutes="25">25 分鐘</button>
+      </div>
+
+      <div class="actions">
+        <button id="start-btn" class="primary">開始</button>
+        <button id="pause-btn">暫停</button>
+        <button id="reset-btn">重設</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
