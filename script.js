@@ -20,6 +20,7 @@ let remainingSeconds = totalSeconds;
 let audioContext = null;
 let alertAudio = null;
 let hasUnlockedAudio = false;
+let targetTimestamp = null;
 
 function createAlertToneUrl() {
   const sampleRate = 44100;
@@ -176,6 +177,23 @@ function updateUI() {
 function stopTimer() {
   clearInterval(timerId);
   timerId = null;
+  targetTimestamp = null;
+}
+
+function tickTimer() {
+  if (!targetTimestamp) {
+    return;
+  }
+
+  const nextRemaining = Math.max(0, Math.ceil((targetTimestamp - Date.now()) / 1000));
+  remainingSeconds = nextRemaining;
+  updateUI();
+
+  if (nextRemaining <= 0) {
+    stopTimer();
+    statusLabel.textContent = "\u6642\u9593\u5230";
+    playAlertSound();
+  }
 }
 
 async function playAlertSound() {
@@ -225,12 +243,13 @@ async function playAlertSound() {
 }
 
 async function startTimer() {
-  if (!remainingSeconds) {
-    totalSeconds = getInputSeconds();
+  totalSeconds = getInputSeconds();
+
+  if (!timerId) {
     remainingSeconds = totalSeconds;
   }
 
-  if (!remainingSeconds) {
+  if (!totalSeconds) {
     statusLabel.textContent = "\u8acb\u5148\u8f38\u5165\u6642\u9593";
     return;
   }
@@ -238,19 +257,9 @@ async function startTimer() {
   await unlockAudio();
   statusLabel.textContent = "\u5012\u6578\u4e2d";
   stopTimer();
-
-  timerId = setInterval(() => {
-    remainingSeconds -= 1;
-    updateUI();
-
-    if (remainingSeconds <= 0) {
-      remainingSeconds = 0;
-      updateUI();
-      stopTimer();
-      statusLabel.textContent = "\u6642\u9593\u5230";
-      playAlertSound();
-    }
-  }, 1000);
+  targetTimestamp = Date.now() + (remainingSeconds * 1000);
+  tickTimer();
+  timerId = setInterval(tickTimer, 250);
 }
 
 function pauseTimer() {
