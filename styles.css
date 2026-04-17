@@ -90,40 +90,18 @@ h1 {
   padding: 26px 18px;
 }
 
-.time-grid {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.time-box {
-  min-width: 0;
-  display: grid;
-  justify-items: center;
-  gap: 4px;
-}
-
-.time-value {
-  display: block;
-  font-size: clamp(1.35rem, 5vw, 2.1rem);
+.time-display {
+  font-size: clamp(1.35rem, 5vw, 2.2rem);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.04em;
 }
 
-.time-unit {
-  display: block;
+.time-unit-line {
+  margin-top: 8px;
   color: var(--muted);
   font-size: 0.8rem;
-}
-
-.time-separator {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--accent-dark);
-  transform: translateY(-8px);
+  letter-spacing: 0.18em;
 }
 
 #status-label {
@@ -230,21 +208,13 @@ button.primary:hover {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .time-grid {
-    gap: 4px;
-  }
-
-  .time-value {
+  .time-display {
     font-size: clamp(1.05rem, 4vw, 1.35rem);
   }
 
-  .time-unit {
+  .time-unit-line {
     font-size: 0.72rem;
-  }
-
-  .time-separator {
-    font-size: 1.1rem;
-    transform: translateY(-6px);
+    letter-spacing: 0.12em;
   }
 
   .actions button:first-child {

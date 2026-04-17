@@ -2,10 +2,7 @@ const daysInput = document.querySelector("#days-input");
 const hoursInput = document.querySelector("#hours-input");
 const minutesInput = document.querySelector("#minutes-input");
 const secondsInput = document.querySelector("#seconds-input");
-const daysDisplay = document.querySelector("#days-display");
-const hoursDisplay = document.querySelector("#hours-display");
-const minutesDisplay = document.querySelector("#minutes-display");
-const secondsDisplay = document.querySelector("#seconds-display");
+const timeDisplay = document.querySelector("#time-display");
 const statusLabel = document.querySelector("#status-label");
 const startButton = document.querySelector("#start-btn");
 const pauseButton = document.querySelector("#pause-btn");
@@ -167,10 +164,7 @@ function syncInputs(total) {
 
 function updateUI() {
   const parts = getTimeParts(remainingSeconds);
-  daysDisplay.textContent = pad(parts.days);
-  hoursDisplay.textContent = pad(parts.hours);
-  minutesDisplay.textContent = pad(parts.minutes);
-  secondsDisplay.textContent = pad(parts.seconds);
+  timeDisplay.textContent = `${pad(parts.days)} : ${pad(parts.hours)} : ${pad(parts.minutes)} : ${pad(parts.seconds)}`;
   const progress = totalSeconds > 0 ? remainingSeconds / totalSeconds : 0;
   ring.style.setProperty("--progress", `${Math.max(0, progress)}`);
 }
